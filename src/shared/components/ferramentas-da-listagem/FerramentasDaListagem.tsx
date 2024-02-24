@@ -25,7 +25,7 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
     return (
         <Box
             height={theme.spacing(5)}
-            marginX={1}
+            marginX={0}
             padding={1}
             paddingX={2}
             display={'flex'}

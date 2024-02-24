@@ -49,7 +49,7 @@ export const AutoCompleteCidade: React.FC<IAutoCompleteCidadeProps> = ({ isExter
           }
         });
     });
-  }, [busca])
+  }, [busca, debounce])
 
   const autoCompleteSelectedOption = useMemo(() => {
     if (!selectedId) return null;

@@ -17,3 +17,12 @@ export const Environment = {
    */
   URL_BASE: 'http://localhost:3333',
 };
+
+// process.env.PUBLIC_URL
+
+export const Env = {
+  /**
+   * Border Radius Global
+   */
+  BD_RADIUS: 10,
+};

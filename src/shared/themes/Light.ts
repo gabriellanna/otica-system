@@ -1,25 +1,20 @@
 import { createTheme } from "@mui/material";
-import { cyan, yellow } from "@mui/material/colors";
+import { createComponents } from "./create-components";
+import { createPalette } from "./create-palette";
+import { eduFlex } from "./colors";
+
+const components = createComponents();
+const palette = createPalette();
 
 export const LightTheme = createTheme({
-  palette: {
-    primary: {
-      main: yellow[700],
-      dark: yellow[800],
-      light: yellow[500],
-      contrastText: "#ffffff",
-    },
+  palette,
+  components,
 
-    secondary: {
-      main: cyan[500],
-      dark: cyan[400],
-      light: cyan[300],
-      contrastText: "#ffffff",
-    },
-
-    background: {
-      paper: "#ffffff",
-      default: "#f7f6f3"
+  typography: {
+    allVariants: {
+      color: eduFlex.titleColor,
+      fontFamily: 'Montserrat, sans-serif',
     }
-  }
+  },
+
 });

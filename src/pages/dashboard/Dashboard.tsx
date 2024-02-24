@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { Box, Card, CardContent, CircularProgress, Grid, Typography } from "@mui/material";
 
+import { OverviewSales, OverviewTotalCustomers, OverviewBudget, OverviewTotalProfit } from "./sections";
 import { CidadesService } from "../../shared/services/api/cidades/CidadesService";
-import { FerramentasDaListagem } from "../../shared/components";
-import { LayoutBaseDePagina } from "../../shared/layouts";
 import { PessoasService } from "../../shared/services/api/pessoas/PessoasService";
+import { LayoutBaseDePagina } from "../../shared/layouts";
+import { Env } from "../../shared/environment";
 
 export const Dashboard = () => {
   const [isLoadingCidades, setIsLoadingCidades] = useState(true);
@@ -44,58 +45,178 @@ export const Dashboard = () => {
   return (
     <LayoutBaseDePagina
       titulo="Página inicial"
-      barraDeFerramentas={<FerramentasDaListagem mostrarBotaoNovo={false} />}
+    //barraDeFerramentas={<FerramentasDaListagem mostrarBotaoNovo={false} />}
     >
-      <Box width='100%' display='flex'>
-        <Grid container margin={2}>
-          <Grid item container spacing={2}>
+      <Box width='100%' display='flex' >
+        <Grid container>
 
-            <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+          <Grid item container spacing={4}
+          // bgcolor='GrayText'
+          >
+            <Grid item
+              xs={12}
+              sm={6}
+              lg={4}
+            >
+              <OverviewBudget
+                difference={12}
+                positive
+                sx={{ height: '100%' }}
+                value="$24k"
+              />
+            </Grid>
+            <Grid item
+              xs={12}
+              sm={6}
+              lg={4}
+            >
+              <OverviewTotalCustomers
+                difference={16}
+                positive={false}
+                sx={{ height: '100%' }}
+                value="1.6k"
+              />
+            </Grid>
+            <Grid item
+              xs={12}
+              sm={6}
+              lg={4}
+            >
+              <OverviewTotalProfit
+                sx={{ height: '100%' }}
+                value="$15k"
+              />
+            </Grid>
 
-              <Card>
-                <CardContent>
-                  <Typography variant="h5" align="center">
-                    Total de Pessoas
-                  </Typography>
 
-                  <Box padding={6} display='flex' justifyContent='center' alignItems='center'>
-                    {!isLoadingPessoas && (
-                      <Typography variant="h1">
-                        {totalCountPessoas}
-                      </Typography>
-                    )}
-                    {isLoadingPessoas && (
-                      <CircularProgress size={90} />
-                    )}
-                  </Box>
-                </CardContent>
-              </Card>
+            <Grid item
+              xs={12}
+              lg={8}
+            >
+              <OverviewSales
+                chartSeries={[
+                  {
+                    name: 'Este ano',
+                    data: [18, 16, 5, 8, 3, 14, 14, 16, 17, 19, 18, 20]
+                  },
+                  {
+                    name: 'Ano passado',
+                    data: [12, 11, 4, 6, 2, 9, 9, 10, 11, 12, 13, 13]
+                  }
+                ]}
+                sx={{ height: '100%' }}
+              />
+            </Grid>
+
+
+
+            <Grid item xs={12} sm={12} md={6} lg={4} xl={4}
+            // bgcolor='#af6262f3'
+            >
+
+              <Box margin={0}>
+                <Card sx={{ borderRadius: `${Env.BD_RADIUS}` }}>
+                  <CardContent sx={{ borderRadius: `${Env.BD_RADIUS}` }}>
+                    <Typography variant="h5" align="center">
+                      Total de Pessoas
+                    </Typography>
+
+                    <Box padding={6} display='flex' justifyContent='center' alignItems='center'>
+                      {!isLoadingPessoas && (
+                        <Typography variant="h1">
+                          {totalCountPessoas}
+                        </Typography>
+                      )}
+                      {isLoadingPessoas && (
+                        <CircularProgress size={90} />
+                      )}
+                    </Box>
+                  </CardContent>
+                </Card>
+              </Box>
 
             </Grid>
-            <Grid item xs={12} sm={12} md={6} lg={4} xl={3}>
+            <Grid item xs={12} sm={12} md={6} lg={4} xl={4}
+            // bgcolor='#73af62f3'
+            >
 
-              <Card>
-                <CardContent>
-                  <Typography variant="h5" align="center">
-                    Total de Cidades
-                  </Typography>
+              <Box margin={0}>
+                <Card>
+                  <CardContent>
+                    <Typography variant="h5" align="center">
+                      Total de Cidades
+                    </Typography>
 
-                  <Box padding={6} display='flex' justifyContent='center' alignItems='center'>
-                    {!isLoadingCidades && (
-                      <Typography variant="h1">
-                        {totalCountCidades}
-                      </Typography>
-                    )}
-                    {isLoadingCidades && (
-                      <CircularProgress size={90} />
-                    )}
-                  </Box>
-                </CardContent>
-              </Card>
+                    <Box padding={6} display='flex' justifyContent='center' alignItems='center'>
+                      {!isLoadingCidades && (
+                        <Typography variant="h1">
+                          {totalCountCidades}
+                        </Typography>
+                      )}
+                      {isLoadingCidades && (
+                        <CircularProgress size={90} />
+                      )}
+                    </Box>
+                  </CardContent>
+                </Card>
+              </Box>
+
+            </Grid>
+            <Grid item xs={12} sm={12} md={6} lg={4} xl={4}
+            // bgcolor='#af6262f3'
+            >
+
+              <Box margin={0}>
+                <Card sx={{ borderRadius: `${Env.BD_RADIUS}` }}>
+                  <CardContent sx={{ borderRadius: `${Env.BD_RADIUS}` }}>
+                    <Typography variant="h5" align="center">
+                      Total de Pessoas
+                    </Typography>
+
+                    <Box padding={6} display='flex' justifyContent='center' alignItems='center'>
+                      {!isLoadingPessoas && (
+                        <Typography variant="h1">
+                          {totalCountPessoas}
+                        </Typography>
+                      )}
+                      {isLoadingPessoas && (
+                        <CircularProgress size={90} />
+                      )}
+                    </Box>
+                  </CardContent>
+                </Card>
+              </Box>
+
+            </Grid>
+            <Grid item xs={12} sm={12} md={6} lg={4} xl={4}
+            // bgcolor='#73af62f3'
+            >
+
+              <Box margin={0}>
+                <Card>
+                  <CardContent>
+                    <Typography variant="h5" align="center">
+                      Total de Cidades
+                    </Typography>
+
+                    <Box padding={6} display='flex' justifyContent='center' alignItems='center'>
+                      {!isLoadingCidades && (
+                        <Typography variant="h1">
+                          {totalCountCidades}
+                        </Typography>
+                      )}
+                      {isLoadingCidades && (
+                        <CircularProgress size={90} />
+                      )}
+                    </Box>
+                  </CardContent>
+                </Card>
+              </Box>
 
             </Grid>
 
           </Grid>
+
         </Grid>
       </Box>
     </LayoutBaseDePagina>

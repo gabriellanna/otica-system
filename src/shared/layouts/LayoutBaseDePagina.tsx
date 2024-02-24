@@ -15,36 +15,44 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({ childre
 
     const { toggleDrawerOpen } = useDrawerContext();
 
-    return (
-        <Box height={'100%'} display={'flex'} flexDirection={'column'} gap={1}>
-            <Box padding={1} display={'flex'} alignItems={'center'} gap={1} height={theme.spacing(smDown ? 6 : mdDown ? 8 : 12)}>
+    return (                                       // marginX => movimenta todo o corpo dos filhos da aplicação
+        <>
+            <Box display={'flex'} gap={1} alignItems={'center'}  height={theme.spacing(smDown ? 6 : mdDown ? 8 : 12)}
+                marginTop={2}
+                maxWidth={'1200px'} 
+              //  bgcolor='#44b0b8'
+                borderRadius={3}
+            >
                 {smDown && (
                     <IconButton onClick={toggleDrawerOpen}>
                         <Icon>menu</Icon>
                     </IconButton>
                 )}
-                
-                <Typography 
-                    variant={smDown ? 'h5' : mdDown ? 'h4' : 'h3'}
+
+                <Typography
+                    variant={smDown ? 'h5' : mdDown ? 'h4' : 'h4'}
                     overflow={'hidden'}
                     whiteSpace={'nowrap'}
                     textOverflow={'ellipsis'}
+                    fontFamily='Montserrat, sans-serif'
+                    fontWeight={700}
                 >
                     {titulo}
                 </Typography>
             </Box>
-            
+
             {barraDeFerramentas && (
                 <Box>
                     {barraDeFerramentas}
                 </Box>
             )}
-            
-            <Box flex={1} overflow={'auto'} // ocupar todo o espaço disponível => flex={1}
+
+            <Box paddingTop={1} flex={1} height='min-content' // flex={1} ==> ocupar todo o espaço disponível 
+              //  bgcolor='#171547'
             >
                 {children}
             </Box>
-            
-        </Box>
+
+        </>
     );
 };

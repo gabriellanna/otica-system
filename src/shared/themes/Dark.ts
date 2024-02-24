@@ -1,5 +1,8 @@
 import { createTheme } from "@mui/material";
 import { cyan, yellow } from "@mui/material/colors";
+import { createComponents2 } from "./create-components";
+
+const components = createComponents2();
 
 export const DarkTheme = createTheme({
     palette: {
@@ -19,14 +22,18 @@ export const DarkTheme = createTheme({
         },
 
         background: {
-            paper: '#303134',
+            //paper: '#303134',
+            paper: 'transparent',
             default: '#202124'
         }
     },
 
+    components,
+
     typography: {
         allVariants: {
             color: 'white',
+            fontFamily: 'Montserrat, sans-serif',
         }
     }
 });

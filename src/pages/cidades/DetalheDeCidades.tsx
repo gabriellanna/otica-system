@@ -50,58 +50,57 @@ export const DetalheDeCidades: React.FC = () => {
 
 
   const handleSave = (dados: IFormData) => {
-    // { abortEarly: false } ====> validar todos os erros de uma vez só, true valida só o primeiro
-    formValidationSchema.
-    validate(dados, { abortEarly: false })
-    .then((dadosValidados) => {
+    //.................................. { abortEarly: false } ====> validar todos os erros de uma vez só, true valida só o primeiro
+    formValidationSchema.validate(dados, { abortEarly: false })
+      .then((dadosValidados) => {
 
-      setIsLoading(true);
-  
-      if (id === 'nova') {
-        CidadesService
-          .create(dadosValidados)
-          .then((result) => {
-            setIsLoading(false);
-  
-            if (result instanceof Error) {
-              alert(result.message);
-            } else {
-              if (isSaveAndClose()) {
-                navigate('/cidades')
+        setIsLoading(true);
+
+        if (id === 'nova') {
+          CidadesService
+            .create(dadosValidados)
+            .then((result) => {
+              setIsLoading(false);
+
+              if (result instanceof Error) {
+                alert(result.message);
               } else {
-                navigate(`/cidades/detalhe/${result}`); //result me retorna o Id do usuário
+                if (isSaveAndClose()) {
+                  navigate('/cidades')
+                } else {
+                  navigate(`/cidades/detalhe/${result}`); //result me retorna o Id do usuário
+                }
               }
-            }
-          });
-      } else {
-        CidadesService
-          .updateById(Number(id), { id: Number(id), ...dadosValidados })
-          .then((result) => {
-            setIsLoading(false);
-  
-            if (result instanceof Error) {
-              alert(result.message);
-            } else {
-              if (isSaveAndClose()) {
-                navigate('/cidades')
+            });
+        } else {
+          CidadesService
+            .updateById(Number(id), { id: Number(id), ...dadosValidados })
+            .then((result) => {
+              setIsLoading(false);
+
+              if (result instanceof Error) {
+                alert(result.message);
+              } else {
+                if (isSaveAndClose()) {
+                  navigate('/cidades')
+                }
               }
-            }
-          });
-      }
+            });
+        }
 
-    })
-    .catch((errors: yup.ValidationError) => {
-      const validadtionErros: IVFormErrors = {};
+      })
+      .catch((errors: yup.ValidationError) => {
+        const validadtionErros: IVFormErrors = {};
 
-      errors.inner.forEach(error => {
-        if (!error.path) return;
+        errors.inner.forEach(error => {
+          if (!error.path) return;
 
-        validadtionErros[error.path] = error.message;
+          validadtionErros[error.path] = error.message;
+        });
+
+        console.log(errors.errors);
+        formRef.current?.setErrors(validadtionErros);
       });
-
-      console.log(errors.errors);
-      formRef.current?.setErrors(validadtionErros);
-    });
 
   };
 
@@ -135,7 +134,7 @@ export const DetalheDeCidades: React.FC = () => {
           aoClicarEmApagar={() => handleDelete(Number(id))}
           aoClicarEmNovo={() => navigate('/cidades/detalhe/nova')}
 
-          //() => formRef.current?.submitForm()
+        //() => formRef.current?.submitForm()
         />
       }
     >
