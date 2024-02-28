@@ -6,7 +6,9 @@ import {
     DetalheDePessoas,
     ListagemDePessoas,
     DetalheDeCidades,
-    ListagemDeCidades
+    ListagemDeCidades,
+    ListagemDeClientes,
+    DetalheDeClientes
 } from "../pages";
 
 export const AppRouters = () => {
@@ -20,6 +22,11 @@ export const AppRouters = () => {
                 icon: 'home',
                 path: '/pagina-inicial',
                 label: 'Página Inicial'
+            },
+            {
+                icon: 'people',
+                path: '/clientes',
+                label: 'Clientes'
             },
             {
                 icon: 'location_city',
@@ -37,6 +44,9 @@ export const AppRouters = () => {
     return(
         <Routes>
             <Route path="/pagina-inicial" element={<Dashboard />} />
+
+            <Route path="/clientes" element={<ListagemDeClientes />} />
+            <Route path="/clientes/detalhe/:id" element={<DetalheDeClientes />} />
 
             <Route path="/pessoas" element={<ListagemDePessoas />} />
             <Route path="/pessoas/detalhe/:id" element={<DetalheDePessoas />} />
