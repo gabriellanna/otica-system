@@ -67,7 +67,9 @@ export const FerramentasDeDetalhe: React.FC<IFerramentasDeDetalheProps> = ({
           onClick={aoClicarEmSalvar}
           startIcon={<Icon>save</Icon>}
         >
-          <Typography variant="button" whiteSpace={'nowrap'} textOverflow={'ellipsis'} overflow={'hidden'}>
+          <Typography variant="button" whiteSpace={'nowrap'} textOverflow={'ellipsis'} overflow={'hidden'}
+            color='#fff'
+          >
             Salvar
           </Typography>
         </Button>
