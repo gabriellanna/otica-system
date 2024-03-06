@@ -8,7 +8,8 @@ import {
     DetalheDeCidades,
     ListagemDeCidades,
     ListagemDeClientes,
-    DetalheDeClientes
+    DetalheDeClientes,
+    NovoCliente
 } from "../pages";
 
 export const AppRouters = () => {
@@ -45,6 +46,7 @@ export const AppRouters = () => {
         <Routes>
             <Route path="/pagina-inicial" element={<Dashboard />} />
 
+            <Route path="/clientes/novo" element={<NovoCliente />} />
             <Route path="/clientes" element={<ListagemDeClientes />} />
             <Route path="/clientes/detalhe/:id" element={<DetalheDeClientes />} />
 

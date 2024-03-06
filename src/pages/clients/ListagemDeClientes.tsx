@@ -67,8 +67,8 @@ export const ListagemDeClientes: React.FC = () => {
     }
   };
 
-  const styleTableCell = {display: 'flex', flexDirection:'column', justifyContent: 'center'};
-  const styleCell = {display: 'flex', flexDirection:'row', alignItems: 'center'};
+  const styleTableCell = { display: 'flex', flexDirection: 'column', justifyContent: 'center' };
+  const styleCell = { display: 'flex', flexDirection: 'row', alignItems: 'center' };
   return (
     <LayoutBaseDePagina
       titulo="Listagem de Clientes"
@@ -77,7 +77,7 @@ export const ListagemDeClientes: React.FC = () => {
           mostrarInputBusca
           textoDaBusca={busca}
           textoBotaoNovo="Novo Cliente"
-          aoClicarEmNovo={() => navigate('/clientes/detalhe/nova')}
+          aoClicarEmNovo={() => navigate('/clientes/novo')}
           aoMudarTextDeBusca={texto => setSearchParams({ busca: texto, pagina: '1' }, { replace: true })}
         />
       }
@@ -87,7 +87,7 @@ export const ListagemDeClientes: React.FC = () => {
       >
         <Button variant="contained" endIcon={<Icon>add</Icon>}>
           Exportar Clientes
-          </Button>
+        </Button>
         <Typography variant="h5">Foram encontrados um total de {totalCount} clientes</Typography>
       </Box>
       <TableContainer component={Paper} variant='outlined' sx={{ m: 1, width: 'auto' }}>
@@ -138,7 +138,7 @@ export const ListagemDeClientes: React.FC = () => {
           <TableFooter>
             {isLoading && (
               <TableRow>
-                <TableCell colSpan={3} // <--- colSpan( qntdade de colunas vai ocupar de espaço )
+                <TableCell colSpan={6} // <--- colSpan( qntdade de colunas vai ocupar de espaço )
                 >
                   <LinearProgress variant='indeterminate' />
                 </TableCell>
