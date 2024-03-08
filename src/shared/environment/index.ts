@@ -25,4 +25,12 @@ export const Env = {
    * Border Radius Global
    */
   BD_RADIUS: 10,
+  /**
+   * Global display Flex, com flex-direction: column
+   */
+  FLEX_COLUMN: { display: 'flex', flexDirection: 'column' },
+  /**
+   * Global display Flex, com flex-direction: row
+   */
+  FLEX_ROW: { display: 'flex', flexDirection: 'row' },
 };

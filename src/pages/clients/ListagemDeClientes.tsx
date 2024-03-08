@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
-import { Avatar, Box, Button, Icon, IconButton, LinearProgress, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow, Typography } from "@mui/material";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { Box, Button, Icon, Typography } from "@mui/material";
 
-import { IListagemPessoa, PessoasService } from "../../shared/services/api/pessoas/PessoasService";
+import { IListagemCliente, ClientesService } from "../../shared/services/api/clientes/ClientesService";
 import { FerramentasDaListagem } from "../../shared/components";
 import { LayoutBaseDePagina } from "../../shared/layouts";
 import { useDebounce } from "../../shared/hooks";
-import { Environment } from "../../shared/environment";
+import { SectionTable } from "./sections";
 
 
 export const ListagemDeClientes: React.FC = () => {
@@ -15,7 +15,7 @@ export const ListagemDeClientes: React.FC = () => {
   const { debounce } = useDebounce(800, true);
   const navigate = useNavigate();
 
-  const [rows, setRows] = useState<IListagemPessoa[]>([]);
+  const [rows, setRows] = useState<IListagemCliente[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
 
@@ -32,7 +32,7 @@ export const ListagemDeClientes: React.FC = () => {
     setIsLoading(true);
 
     debounce(() => {
-      PessoasService.getAll(pagina, busca)
+      ClientesService.getAll(pagina, busca)
         .then((result) => {
           setIsLoading(false);
 
@@ -48,27 +48,6 @@ export const ListagemDeClientes: React.FC = () => {
     });
   }, [busca, pagina, debounce]);
 
-  const handleDelete = (id: number) => {
-    if (window.confirm('Realmente deseja apagar?')) {
-      PessoasService.deleteById(id)
-        .then(result => {
-          if (result instanceof Error) {
-            alert(result.message);
-          } else {
-            setRows(oldRows => {
-
-              return [
-                ...oldRows.filter(oldRow => oldRow.id !== id),
-              ]
-            });
-            alert("Registro apagado com sucesso!");
-          }
-        });
-    }
-  };
-
-  const styleTableCell = { display: 'flex', flexDirection: 'column', justifyContent: 'center' };
-  const styleCell = { display: 'flex', flexDirection: 'row', alignItems: 'center' };
   return (
     <LayoutBaseDePagina
       titulo="Listagem de Clientes"
@@ -82,6 +61,8 @@ export const ListagemDeClientes: React.FC = () => {
         />
       }
     >
+
+
       <Box marginY={2}
         display='flex' flexDirection='row' justifyContent='space-between'
       >
@@ -90,74 +71,17 @@ export const ListagemDeClientes: React.FC = () => {
         </Button>
         <Typography variant="h5">Foram encontrados um total de {totalCount} clientes</Typography>
       </Box>
-      <TableContainer component={Paper} variant='outlined' sx={{ m: 1, width: 'auto' }}>
-        <Table>
-          <TableHead>
 
-            <TableRow>
-              <TableCell width={10}></TableCell>
-              <TableCell>Nome</TableCell>
-              <TableCell>Celular</TableCell>
-              <TableCell>Endereço</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell width={70}>Ações</TableCell>
-            </TableRow>
-
-          </TableHead>
-          <TableBody>
-
-            {rows?.map(row => (
-              <TableRow key={row.id}>
-                <TableCell><Avatar><Icon>people</Icon></Avatar></TableCell>
-                <TableCell sx={styleTableCell}>
-                  <Typography>{row.nomeCompleto}</Typography>
-                  <Typography component={Box} fontSize={12} sx={styleCell}>
-                    <Icon >location_city</Icon>Otica Rosi
-                  </Typography>
-                </TableCell>
-                <TableCell>(21) 9 9999-9999</TableCell>
-                <TableCell><Icon>location_on</Icon>Av. teste teste, 00 / RJ - Nova Iguaçu </TableCell>
-                <TableCell>{row.email}</TableCell>
-                <TableCell>
-                  <IconButton size='small' onClick={() => handleDelete(row.id)}>
-                    <Icon>delete</Icon>
-                  </IconButton>
-                  <IconButton size='small' onClick={() => navigate(`/clientes/detalhe/${row.id}`)}>
-                    <Icon>edit</Icon>
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
-
-          </TableBody>
-
-          {totalCount === 0 && !isLoading && (
-            <caption>{Environment.LISTAGEM_VAZIA}</caption>
-          )}
-
-          <TableFooter>
-            {isLoading && (
-              <TableRow>
-                <TableCell colSpan={6} // <--- colSpan( qntdade de colunas vai ocupar de espaço )
-                >
-                  <LinearProgress variant='indeterminate' />
-                </TableCell>
-              </TableRow>
-            )}
-            {(totalCount > 0 && totalCount > Environment.LIMITE_DE_LINHAS) && (
-              <TableRow>
-                <TableCell colSpan={3}>
-                  <Pagination
-                    page={pagina}
-                    count={Math.ceil(totalCount / Environment.LIMITE_DE_LINHAS)}
-                    onChange={(_, newPage) => setSearchParams({ busca, pagina: newPage.toString() }, { replace: true })}
-                  />
-                </TableCell>
-              </TableRow>
-            )}
-          </TableFooter>
-        </Table>
-      </TableContainer>
+      <SectionTable 
+        pagina={pagina}
+        busca={busca}
+        isLoading={isLoading}
+        rows={rows}
+        setRows={setRows}
+        setSearchParams={setSearchParams}
+        totalCount={totalCount}
+      />
+      
     </LayoutBaseDePagina>
   )
 }

@@ -1,13 +1,63 @@
-import { Box, Card, Switch, TextField, Typography } from "@mui/material"
-import { FerramentasDeDetalhe } from "../../shared/components"
-import { LayoutBaseDePagina } from "../../shared/layouts"
+import { useEffect, useState } from "react";
+import { Box } from "@mui/material";
 
+import { SectionDadosPrincipais, SectionSuperior, SectionContato } from "./sections";
+import { FerramentasDeDetalhe } from "../../shared/components";
+import { LayoutBaseDePagina } from "../../shared/layouts";
+import { Env } from "../../shared/environment";
+import { ClientesService, ICellphone } from "../../shared/services/api/clientes/ClientesService";
+import { useNavigate, useParams } from "react-router-dom";
 
 
 export const NovoCliente: React.FC = () => {
 
-  const flexRow = { display: 'flex', flexDirection: 'row' };
-  const flexColumn = { display: 'flex', flexDirection: 'Column' };
+  const [valorTipoCliente, setValorTipoCliente] = useState(true);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [cellphones, setCellphones] = useState<ICellphone[]>([]);
+  const [address, setAddress] = useState('');
+  
+
+  const { id = 'novo' } = useParams<'id'>();
+  const navigate = useNavigate();
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const clientObj = {
+    name: name,
+    email: email,
+    cellphones: cellphones,
+    address: address
+  }
+
+  useEffect(() => {
+    if (id === 'novo') {
+
+      setName('');
+      setEmail('');
+      setCellphones([]);
+      setAddress('');
+
+    } else {
+      setIsLoading(true);
+
+      ClientesService.getById(Number(id))
+        .then((result) => {
+          setIsLoading(false);
+
+          if (result instanceof Error) {
+            alert(result.message);
+            navigate('/pessoas');
+          } else {
+            setName(result.name);
+            setEmail(result.email);
+            setCellphones(result.cellphones);
+            setAddress(result.address);
+
+          }
+        })
+    }
+  }, [])
 
 
   return (
@@ -19,66 +69,23 @@ export const NovoCliente: React.FC = () => {
         />
       }
     >
-      <Box sx={flexColumn} gap={12} marginTop='70px'>
-        <Box width='100%' minHeight='200px'
-          sx={flexRow}
-          //bgcolor='#f5f5f5'
-        >
-          <Box width='50%' height='200px' 
-            sx={flexRow} gap={4}
-            //border='1px solid black'
-          >
-            <Card sx={{ width: '200px', height: '200px' }}>
-              hola
-            </Card>
-            <Box
-              sx={flexColumn} gap={2}
-            >
-              <TextField />
-              <TextField />
-            </Box>
-          </Box>
-          <Box width='50%' height='200px' 
-            //border='1px solid black'
-          >
-            <Box display='flex' justifyContent='flex-end'>
-              <Switch />
-            </Box>
-          </Box>
-        </Box>
+      <Box sx={Env.FLEX_COLUMN} gap={12}>
 
-        <Box width='100%' minHeight='200px' sx={flexRow} 
-          justifyContent='space-between'
-          //bgcolor='#efcece'
-        >
-          <Box width='40%' sx={flexColumn} // border='1px solid black'
-            gap={2}
-          >
-            <Typography variant="h6">Dados Principais</Typography>
-            <TextField label='Nome'/>
-            <TextField label='Apelido'/>
-            <Box sx={flexRow} gap={2}>
-              <TextField label='Data de Nascimento'/>
-              <TextField label='CPF'/>
-            </Box>
-            <TextField label='RG'/>
-          </Box>
-          <Box width='40%' sx={flexColumn} // border='1px solid black'
-            gap={2}
-          >
-            <Typography variant="h6">Endereço</Typography>
-            <TextField />
-            <Box sx={flexRow} gap={2}>
-              <TextField />
-              <TextField />
-              <TextField />
-            </Box>
-            <TextField />
-            <TextField />
-          </Box>
-        </Box>
+
+        <SectionSuperior
+          valorTipoCliente={valorTipoCliente}
+          setValor={setValorTipoCliente}
+        />
+
+        <SectionDadosPrincipais />
+
+        <SectionContato  rowsCellphones={cellphones} setRowsCellphones={setCellphones}
+         />
+
+
       </Box>
 
     </LayoutBaseDePagina>
   )
 }
+
