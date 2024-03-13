@@ -1,40 +1,39 @@
 import styled from "styled-components";
 
-import { ICellphone } from "../../../shared/services/api/clientes/ClientesService";
+import { IEmail } from "../../../shared/services/api/clientes/ClientesService";
 import { FormControlLabel, FormGroup, Icon, IconButton, Paper, Switch, TextField } from "@mui/material";
 
-interface CardCellphoneProps {
+interface CardEmailProps {
   indice: number;
-  handleDeleteCellphone: (indice: number) => void;
-  rowsCellphones: ICellphone[];
-  setRowsCellphones: React.Dispatch<React.SetStateAction<ICellphone[]>>
+  handleDeleteEmail: (indice: number) => void;
+  rowsEmails: IEmail[];
+  setRowsEmails: React.Dispatch<React.SetStateAction<IEmail[]>>
 }
 
-export const CardCellphone: React.FC<CardCellphoneProps> = ({ indice, handleDeleteCellphone, setRowsCellphones, rowsCellphones }) => {
+export const CardEmail: React.FC<CardEmailProps> = ({ indice, handleDeleteEmail, setRowsEmails, rowsEmails }) => {
 
+  const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
 
-  const handleChangeNumero = (e: React.ChangeEvent<HTMLInputElement>) => {
-
-    setRowsCellphones(prevListTel => {
+    setRowsEmails(prevListTel => {
       const novaArray = prevListTel.map((celular, index) => {
         if (index === indice) {
-          return { ...celular, number: e.target.value };
+          return { ...celular, email: e.target.value };
         } else {
           return celular;
         }
       });
       return novaArray;
     });
-  }
+  };
 
-  const handleMainCell = () => {
+  const handleMainEmail = () => {
 
-    setRowsCellphones(prevListCell => {
-      const updatedArray = prevListCell.map((cellphone, index) => {
-        if (index === indice && cellphone.main === false) {
-          return {...cellphone, main: true}
+    setRowsEmails(prevListEmail => {
+      const updatedArray = prevListEmail.map((email, index) => {
+        if (index === indice && email.main === false) {
+          return { ...email, main: true }
         } else {
-          return {...cellphone, main: false};
+          return { ...email, main: false };
         }
       });
 
@@ -42,36 +41,34 @@ export const CardCellphone: React.FC<CardCellphoneProps> = ({ indice, handleDele
     })
   };
 
-
-  const valueNumber = rowsCellphones.filter((_, i) => i === indice)[0].number;
+  const valueEmail = rowsEmails.filter((_, i) => i === indice)[0].email;
 
 
   return (
     <Paper sx={{ boxShadow: '0 0 50px 1px #3737371f', borderRadius: '20px' }}>
       <CardContainer>
         <div className='input-div'>
-          <TextField value={valueNumber} onChange={handleChangeNumero} size="small" label='Número' />
+          <TextField value={valueEmail} onChange={handleChangeEmail} size="small" label='Email' />
           <TextField size="small" label='Identificação' />
         </div>
         <div className='button-div'>
-
           <FormGroup>
 
-            <FormControlLabel 
-              label="Principal" 
+            <FormControlLabel
+              label="Principal"
               control={
-                <Switch 
-                  checked={rowsCellphones[indice].main} 
-                  onChange={handleMainCell} 
-                  size="small" 
+                <Switch
+                  checked={rowsEmails[indice].main}
+                  onChange={handleMainEmail}
+                  size="small"
                 />
-              } 
+              }
             />
 
           </FormGroup>
 
           <IconButton size='small'
-            onClick={() => handleDeleteCellphone(indice)}
+            onClick={() => handleDeleteEmail(indice)}
             sx={{ color: "#d62727", background: '#ffe8cf99', '&:hover': { color: '#a7a7a7', transition: '.2s' } }}
           >
             <Icon>delete</Icon>
@@ -121,17 +118,12 @@ const CardContainer = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     padding: 5px;
     box-sizing: border-box;
-  
-  .button-div-1{
-    display: flex;
-    flex-direction: row;
-  }
 
     input{
       width: 150px;
     }
   }
-`
+`;

@@ -1,9 +1,9 @@
-import { Box, Typography, Paper, Button, Icon, Container, CardContent } from '@mui/material';
+import { Box, Typography, Paper, Button, Icon, Container, Switch } from '@mui/material';
 
-import { ICellphone } from '../../../shared/services/api/clientes/ClientesService';
+import { ICellphone, IEmail } from '../../../shared/services/api/clientes/ClientesService';
+import { CardCellphone } from '../components/CardCellphone';
+import { CardEmail } from '../components/CardEmail';
 import { Env } from '../../../shared/environment';
-import { Cardd } from '../components/CardCellphone';
-import styled from 'styled-components';
 
 
 
@@ -24,7 +24,7 @@ var sectionStyle = {
 var divStyle = {
   borderRadius: '10px',
   border: '1px solid #b0b0b0',
-  backgroundColor: '#fff',
+ // backgroundColor: '#fff',
   padding: '10px',
 }
 
@@ -32,20 +32,37 @@ var divStyle = {
 
 
 interface SectionContatoProps {
+  rowsEmails: IEmail[];
   rowsCellphones: ICellphone[];
+  setRowsEmails: React.Dispatch<React.SetStateAction<IEmail[]>>;
   setRowsCellphones: React.Dispatch<React.SetStateAction<ICellphone[]>>;
 }
 
-export const SectionContato: React.FC<SectionContatoProps> = ({ rowsCellphones, setRowsCellphones }) => {
+export const SectionContato: React.FC<SectionContatoProps> = ({ rowsCellphones, setRowsCellphones, rowsEmails, setRowsEmails }) => {
 
   const handleAddCellphone = () => {
-    let noCell: ICellphone = { number: '', identificacao: '' }
+    let noCell: ICellphone = { number: '', identificacao: '', main: false }
     setRowsCellphones(prevListTel => [...prevListTel, noCell]);
   }
 
-  const handleDeleteCellphone = (indice: number) => {
-    setRowsCellphones(prevListTel => prevListTel.filter((_, index) => index !== indice));
+
+  const handleAddEmail = () => {
+    let noEmail: IEmail = { email: '', identificacao: '', main: false }
+    setRowsEmails(prevListEmail => [...prevListEmail, noEmail]);
   }
+
+  const handleDeleteCellphone = (indice: number) => {
+    if(rowsCellphones.length > 1) {
+      setRowsCellphones(prevListTel => prevListTel.filter((_, index) => index !== indice));
+    }
+    else {
+      return;
+    };
+  };
+
+  const handleDeleteEmail = (indice: number) => {
+    setRowsEmails(prevListEmail => prevListEmail.filter((_, index) => index !== indice));
+  };
 
   return (
     <Box // content inferior
@@ -59,12 +76,14 @@ export const SectionContato: React.FC<SectionContatoProps> = ({ rowsCellphones, 
         Informações de Contato
       </Typography>
 
-      <Box sx={sectionStyle}>
+      <Box sx={sectionStyle} //-------------------------Teste---State----TELEFONE
+      >
         {rowsCellphones.map((cell, indice) => (
           <Box sx={divStyle}>
             <p>{indice}</p>
             <p>Telefone: {cell.number}</p>
             <p>Identificação: {cell.identificacao}</p>
+            <p>Principal: {<Switch checked={cell.main} />}</p>
           </Box>
         ))
         }
@@ -73,48 +92,36 @@ export const SectionContato: React.FC<SectionContatoProps> = ({ rowsCellphones, 
       <Container component={Box} width='100%' height='min-content' sx={Env.FLEX_ROW} gap={5} //bgcolor='#3333334f'
       >
 
-        {/* <Paper component={Box} width='50%' height='min-content' // border='1px solid black'
-          sx={Env.FLEX_COLUMN} gap={2}
-          padding='20px'
-          elevation={10}
+
+
+        <Paper component={Box} width='50%' boxSizing='border-box' elevation={5} // Telefone Container
         >
+          <Box
+            width='100%'
+            minHeight='100px'
 
-          <Box sx={Env.FLEX_ROW} justifyContent='space-between' // label e button + Telefone
+            padding='20px'
+            boxSizing='border-box'
+
+            display='flex'
+            alignItems='center'
+            flexDirection='column'
+            gap='2rem'
+
+            borderRadius='20px'
           >
-            <Typography>Telefones</Typography>
-            <Button
-              variant="contained"
-              startIcon={<Icon>add</Icon>}
-              onClick={handleAddCellphone}
+            <Box
+              width='100%'
+              minHeight='50px'
+
+              borderRadius='10px'
+
+              display='flex'
+              justifyContent='space-between'
+              alignItems='center'
+              flexDirection='row'
+              gap='1rem'
             >
-              Telefone
-            </Button>
-          </Box>
-
-
-          <Box flex={1} // bgcolor={'#33333365'} 
-            sx={Env.FLEX_COLUMN} gap={3}
-            height='min-content'
-            marginY={6}
-          >
-
-            {rowsCellphones?.map((cell, indice) => (
-              <CardCellphone
-                key={cell.number}
-                handleDeleteCellphone={handleDeleteCellphone}
-                indice={indice}
-                setRowsCellphones={setRowsCellphones}
-                rowsCellphones={rowsCellphones}
-              />
-            ))}
-
-
-          </Box>
-        </Paper> */}
-
-        <Paper component={Box} width='50%' boxSizing='border-box' elevation={5}>
-          <Containerr>
-            <TextContent>
               <Typography>Telefones</Typography>
               <Button
                 startIcon={<Icon>add</Icon>}
@@ -123,12 +130,25 @@ export const SectionContato: React.FC<SectionContatoProps> = ({ rowsCellphones, 
               >
                 TELEFONE
               </Button>
-            </TextContent>
+            </Box>
 
-            <CardContentt>
+            <Box
+              width='100%'
+              minHeight='100px'
 
-              {rowsCellphones.map((cell, indice) => (
-                <Cardd
+              boxSizing='border-box'
+
+              borderRadius='10px'
+
+              display='flex'
+              justifyContent='center'
+              alignItems='center'
+              flexDirection='column'
+              gap='1rem'
+            >
+
+              {rowsCellphones.map((_, indice) => (
+                <CardCellphone
                   handleDeleteCellphone={handleDeleteCellphone}
                   setRowsCellphones={setRowsCellphones}
                   rowsCellphones={rowsCellphones}
@@ -136,84 +156,96 @@ export const SectionContato: React.FC<SectionContatoProps> = ({ rowsCellphones, 
                 />
               ))}
 
-            </CardContentt>
-          </Containerr>
-        </Paper>
-
-
-
-        <Paper component={Box} width='50%' // border='1px solid black'
-          sx={Env.FLEX_COLUMN}
-          padding='20px'
-          elevation={5}
-        >
-          <Box sx={Env.FLEX_ROW} justifyContent='space-between'>
-            <Typography>Emails</Typography>
-            <Button
-              variant="contained"
-              startIcon={<Icon>add</Icon>}
-            >
-              Email
-            </Button>
+            </Box>
           </Box>
         </Paper>
 
+
+
+
+        <Paper component={Box} width='50%' boxSizing='border-box' elevation={5} // Email Container
+        >
+          <Box
+            width='100%'
+            minHeight='100px'
+
+            padding='20px'
+            boxSizing='border-box'
+
+            display='flex'
+            alignItems='center'
+            flexDirection='column'
+            gap='2rem'
+
+            borderRadius='20px'
+          >
+            <Box
+              width='100%'
+              minHeight='50px'
+
+              borderRadius='10px'
+
+              display='flex'
+              justifyContent='space-between'
+              alignItems='center'
+              flexDirection='row'
+              gap='1rem'
+            >
+              <Typography>Emails</Typography>
+              <Button
+                startIcon={<Icon>add</Icon>}
+                onClick={handleAddEmail}
+                variant="contained"
+              >
+                Email
+              </Button>
+            </Box>
+
+            <Box
+              width='100%'
+              minHeight='100px'
+
+              boxSizing='border-box'
+
+              borderRadius='10px'
+
+              display='flex'
+              justifyContent='center'
+              alignItems='center'
+              flexDirection='column'
+              gap='1rem'
+            >
+
+              {rowsEmails.map((_, indice) => (
+                <CardEmail
+                  handleDeleteEmail={handleDeleteEmail}
+                  setRowsEmails={setRowsEmails}
+                  rowsEmails={rowsEmails}
+                  indice={indice}
+                />
+              ))}
+
+            </Box>
+          </Box>
+        </Paper>
+
+
+
       </Container>
+
+      <Box sx={sectionStyle} //-------------------------Teste---State----Email
+      >
+        {rowsEmails.map((email, indice) => (
+          <Box sx={divStyle}>
+            <p>{indice}</p>
+            <p>Email: {email.email}</p>
+            <p>Identificação: {email.identificacao}</p>
+            <p>Principal: {<Switch checked={email.main} />}</p>
+          </Box>
+        ))
+        }
+      </Box>
 
     </Box>
   )
 }
-
-
-
-const Containerr = styled.div`
-  
-  width: 100%;
-  min-height: 400px;
-  //background-color: #dbdbdb;
-
-  padding: 20px;
-  box-sizing: border-box;
-  
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  gap: 2rem;
-
-  border-radius: 20px;
-`
-const CardContentt = styled.div`
-  width: 100%;
-  min-height: 100px;
-
-  box-sizing: border-box;
-
-  border-radius: 10px;
- // border: 1px solid black;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 1rem;
-  `
-const TextContent = styled.div`
-  width: 100%;
-  min-height: 50px;
-
-  border-radius: 10px;
- // border: 1px solid black;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: row;
-  gap: 1rem;
-
-  div{
-    border-radius: 10px;
-    border: 1px solid #b0b0b0;
-    background-color: #fff;
-    padding: 10px;
-  }
-`

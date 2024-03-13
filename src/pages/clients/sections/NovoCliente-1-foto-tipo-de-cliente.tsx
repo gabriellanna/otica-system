@@ -1,16 +1,22 @@
-import { Box, Typography, Switch, Paper, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, TextField } from "@mui/material"
-import { imgSemFotoFundo } from "../../../shared/assets/images"
+import { Box, Typography, Switch, Paper, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, TextField } from "@mui/material";
+
+import { imgSemFotoFundo } from "../../../shared/assets/images";
 import { Env } from "../../../shared/environment";
 
 interface SectionSuperiorProps {
-  valorTipoCliente: boolean;
-  setValor: React.Dispatch<React.SetStateAction<boolean>>;
+  name: string;
+  clientType: boolean;
+  setClientType: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const SectionSuperior: React.FC<SectionSuperiorProps> = ({ valorTipoCliente, setValor }) => {
+export const SectionSuperior: React.FC<SectionSuperiorProps> = ({  
+  setClientType,
+  clientType,
+  name
+}) => {
 
   const handleChange = () => {
-    setValor(!valorTipoCliente);
+    setClientType(!clientType);
   };
 
   return (
@@ -25,7 +31,10 @@ export const SectionSuperior: React.FC<SectionSuperiorProps> = ({ valorTipoClien
       >
 
 
-        <Box display='flex' justifyContent='flex-end'>
+        <Box sx={Env.FLEX_ROW} justifyContent='space-between' paddingX={4} boxSizing='border-box'>
+          
+          <Typography variant="h4">{name}</Typography>
+
           <Box sx={Env.FLEX_COLUMN}>
             <Typography>Ativo</Typography>
             <Switch />
@@ -67,7 +76,7 @@ export const SectionSuperior: React.FC<SectionSuperiorProps> = ({ valorTipoClien
             <RadioGroup
               aria-labelledby="demo-controlled-radio-buttons-group"
               name="controlled-radio-buttons-group"
-              value={valorTipoCliente}
+              value={clientType}
               onChange={handleChange}
             >
               <FormControlLabel value={true} control={<Radio />} label="Pessoa Física" />

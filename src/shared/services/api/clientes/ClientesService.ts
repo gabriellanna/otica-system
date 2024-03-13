@@ -3,23 +3,30 @@ import { Api } from "../axios-config";
 
 
 export interface ICellphone {
-  id?: number,
-  number: string,
-  identificacao: string
+  id?: number;
+  number: string;
+  identificacao: string;
+  main: boolean;
+}
+export interface IEmail {
+  id?: number;
+  email: string;
+  identificacao: string;
+  main: boolean;
 }
 
 export interface IListagemCliente {
   id: number;
   name: string;
-  email: string;
+  emails: IEmail[];
   cellphones: ICellphone[];
   address: string;
 }
 
 export interface IDetalheCliente {
-  id: number;
+  id?: number;
   name: string;
-  email: string;
+  emails: IEmail[];
   cellphones: ICellphone[];
   address: string;
 
@@ -74,7 +81,7 @@ const getById = async (id: number): Promise<IDetalheCliente | Error> => {
   }
 };
 
-const create = async (dados: Omit<IDetalheCliente, 'id'>): Promise<number | Error> => {
+const create = async (dados: Omit<IDetalheCliente, 'id'>): Promise<number | Error | undefined> => {
   try {
     const { data } = await Api.post<IDetalheCliente>('/clientes', dados);
 

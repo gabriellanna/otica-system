@@ -85,14 +85,18 @@ export const SectionTable: React.FC<SectionTableProps> = ({ rows, setRows, isLoa
                 </TableCell>
 
                 <TableCell>
-                  {row.email}
+                  {row.emails
+                    .filter(email => email.main === true)
+                    [0]
+                    .email
+                  }
                 </TableCell>
 
                 <TableCell>
                   <IconButton size='small' onClick={() => handleDelete(row.id)}>
                     <Icon>delete</Icon>
                   </IconButton>
-                  <IconButton size='small' onClick={() => navigate(`/clientes/detalhe/${row.id}`)}>
+                  <IconButton size='small' onClick={() => navigate(`/clientes/${row.id}`)}>
                     <Icon>edit</Icon>
                   </IconButton>
                 </TableCell>

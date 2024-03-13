@@ -107,18 +107,45 @@
     {
       "id": 1,
       "name": "Gabriel Lanna",
-      "email": "alveslanna97@gmail.com",
+      "emails": [
+        {
+          "id": 1,
+          "email": "alveslanna97@gmail.com",
+          "main": true
+        }
+      ],
       "cellphones": [
         {
           "id": 1,
-          "number": "21968660160"
+          "number": "21968660160",
+          "main": true
         },
         {
           "id": 2,
-          "number": "21999999999"
+          "number": "21999999999",
+          "main": false
         }
       ],
       "address": "RJ - Nova Iguaçu / R. Comendador Soares, 221"
+    },
+    {
+      "name": "Julio",
+      "emails": [
+        {
+          "email": "julio@gmail.com",
+          "identificacao": "",
+          "main": true
+        }
+      ],
+      "cellphones": [
+        {
+          "number": "21 999999999",
+          "identificacao": "",
+          "main": true
+        }
+      ],
+      "address": "Rua Comendador Soares 221",
+      "id": 2
     }
   ],
   "cidades": [

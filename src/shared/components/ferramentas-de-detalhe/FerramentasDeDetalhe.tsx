@@ -1,4 +1,5 @@
 import { Box, Button, Divider, Icon, Paper, Skeleton, Theme, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Env } from "../../environment";
 
 interface IFerramentasDeDetalheProps {
   textoBotaoNovo?: string;
@@ -114,51 +115,54 @@ export const FerramentasDeDetalhe: React.FC<IFerramentasDeDetalheProps> = ({
       {mostrarBotaoApagarCarregando && (
         <Skeleton width={110} height={60} />
       )}
+      <Box flex={1} sx={Env.FLEX_ROW} justifyContent='end' gap={1}>
+        {(mostrarBotaoNovo && !mostrarBotaoNovoCarregando && !smDown) && (
+          <Button
+            color="primary"
+            disableElevation
+            variant='outlined'
+            onClick={aoClicarEmNovo}
+            startIcon={<Icon>add</Icon>}
+          >
+            <Typography variant="button" whiteSpace={'nowrap'} textOverflow={'ellipsis'} overflow={'hidden'}>
+              {textoBotaoNovo}
+            </Typography>
+          </Button>
+        )}
 
-      {(mostrarBotaoNovo && !mostrarBotaoNovoCarregando && !smDown) && (
-        <Button
-          color="primary"
-          disableElevation
-          variant='outlined'
-          onClick={aoClicarEmNovo}
-          startIcon={<Icon>add</Icon>}
-        >
-          <Typography variant="button" whiteSpace={'nowrap'} textOverflow={'ellipsis'} overflow={'hidden'}>
-            {textoBotaoNovo}
-          </Typography>
-        </Button>
-      )}
+        {(mostrarBotaoNovoCarregando && !smDown) && (
+          <Skeleton width={110} height={60} />
+        )}
 
-      {(mostrarBotaoNovoCarregando && !smDown) && (
-        <Skeleton width={110} height={60} />
-      )}
+        {
+          (
+            mostrarBotaoVoltar &&
+            (mostrarBotaoNovo || mostrarBotaoApagar || mostrarBotaoSalvar || mostrarBotaoSalvarEFechar)
+          ) && (
+            <Divider variant='middle' orientation='vertical' />
+          )
+        }
 
-      {
-        (
-          mostrarBotaoVoltar &&
-          (mostrarBotaoNovo || mostrarBotaoApagar || mostrarBotaoSalvar || mostrarBotaoSalvarEFechar)
-        ) && (
-          <Divider variant='middle' orientation='vertical' />
-        )
-      }
+        {(mostrarBotaoVoltar && !mostrarBotaoVoltarCarregando) && (
+          <Button
+            color="primary"
+            disableElevation
+            variant='outlined'
+            onClick={aoClicarEmVoltar}
+            startIcon={<Icon>arrow_back</Icon>}
+          >
+            <Typography variant="button" whiteSpace={'nowrap'} textOverflow={'ellipsis'} overflow={'hidden'}>
+              Voltar
+            </Typography>
+          </Button>
+        )}
 
-      {(mostrarBotaoVoltar && !mostrarBotaoVoltarCarregando) && (
-        <Button
-          color="primary"
-          disableElevation
-          variant='outlined'
-          onClick={aoClicarEmVoltar}
-          startIcon={<Icon>arrow_back</Icon>}
-        >
-          <Typography variant="button" whiteSpace={'nowrap'} textOverflow={'ellipsis'} overflow={'hidden'}>
-            Voltar
-          </Typography>
-        </Button>
-      )}
+        {mostrarBotaoVoltarCarregando && (
+          <Skeleton width={110} height={60} />
+        )}
 
-      {mostrarBotaoVoltarCarregando && (
-        <Skeleton width={110} height={60} />
-      )}
+      </Box>
+
 
     </Box>
   )

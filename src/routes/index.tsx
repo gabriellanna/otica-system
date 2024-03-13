@@ -46,9 +46,9 @@ export const AppRouters = () => {
         <Routes>
             <Route path="/pagina-inicial" element={<Dashboard />} />
 
-            <Route path="/clientes/novo" element={<NovoCliente />} />
+            <Route path="/clientes/:id" element={<NovoCliente />} />
             <Route path="/clientes" element={<ListagemDeClientes />} />
-            <Route path="/clientes/detalhe/:id" element={<DetalheDeClientes />} />
+            {/* <Route path="/clientes/detalhe/:id" element={<DetalheDeClientes />} /> */}
 
             <Route path="/pessoas" element={<ListagemDePessoas />} />
             <Route path="/pessoas/detalhe/:id" element={<DetalheDePessoas />} />
