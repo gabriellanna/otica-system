@@ -1,4 +1,4 @@
-import { Box, Typography, TextField } from '@mui/material';
+import { Box, Typography, TextField, useMediaQuery, Theme } from '@mui/material';
 import { Env } from '../../../shared/environment';
 
 interface SectionDadosPrincipaisProps {
@@ -29,15 +29,17 @@ export const SectionDadosPrincipais: React.FC<SectionDadosPrincipaisProps> = ({
     setAddress(e.target.value);
   };
 
+  const lgDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg')); //   sm = 600px  //  md = 900px  //  lg = 1200px
+
   return (
     <Box  // content do meio
-      width='100%' minHeight='200px' sx={Env.FLEX_ROW}
-      justifyContent='space-between'
+      width='100%' minHeight='200px' sx={ lgDown ? Env.FLEX_COLUMN : Env.FLEX_ROW}
+      justifyContent='space-between' gap={4}
     //bgcolor='#efcece'
     >
 
 
-      <Box width='45%' sx={Env.FLEX_COLUMN} // border='1px solid black'
+      <Box width={'100%'} sx={Env.FLEX_COLUMN} // border='1px solid black'
         gap={2}
       >
         <Typography variant="h6">Dados Principais</Typography>
@@ -64,7 +66,7 @@ export const SectionDadosPrincipais: React.FC<SectionDadosPrincipaisProps> = ({
 
 
 
-      <Box width='45%' sx={Env.FLEX_COLUMN} // border='1px solid black'
+      <Box width={'100%'} sx={Env.FLEX_COLUMN} // border='1px solid black'
         gap={2}
       >
         <Typography variant="h6">Endereço</Typography>

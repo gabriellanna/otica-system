@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { Box, Card, Divider, Drawer, Icon, List, ListItemButton, ListItemIcon, ListItemText, Typography, useMediaQuery, useTheme } from "@mui/material";
 
 import AvatarNoImg from "../avatar/AvatarNoImg";
@@ -48,25 +48,44 @@ const ListItemLink: React.FC<IListItemLinkProps> = ({ to, icon, label, onClick }
 
 export const MenuLateral: React.FC<IAppThemeProviderProps> = ({ children }) => {
   const theme = useTheme();
-  const smDown = useMediaQuery(theme.breakpoints.down('sm')); // sm = 600px
+  const mdDown = useMediaQuery(theme.breakpoints.down('md')); // sm = 600px / md = 900px lg = 1200px
 
   const { isDrawerOpen, toggleDrawerOpen, drawerOptions } = useDrawerContext();
   const { toggleTheme } = useAppThemeContext();
   const { logout } = useAuthContext();
 
+
+
+  //   useMediaqueryLanna() /////////////////////////////////////////////////
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [])
+  const down400 = windowWidth < 400;
+  /////////////////////////////////////////////////////////////////////////
+
   return (
     <Box    // BODY                               bgcolor={'#333'}
       width='100vw' height='100vh'
       display='flex' justifyContent='center'
-      sx={{ overflowX: 'hidden', overflowY: 'auto' }}
+      sx={{ overflowX: 'auto', overflowY: 'auto' }}
     >
       <Box // CONTAINER                    bgcolor={'#333'}
-        width='90vw' maxWidth='1400px' height='85vh'
+        maxWidth='1400px' height='85vh'
         marginTop='2vw'
         display='flex' flexDirection='row' gap={3}
+        sx={ down400 ? {width: '100vw'} : {width: '90vw'}}
       >
         {/*    ESQUERDA      */}
-        {!smDown && (
+        {!mdDown && (
           <Box height='85vh' //bgcolor={'#a13f1e'}
           >
             <Box width={theme.spacing(28)} height="100%" display='flex' flexDirection='column'// bgcolor={'#a19f1e'}
@@ -121,8 +140,8 @@ export const MenuLateral: React.FC<IAppThemeProviderProps> = ({ children }) => {
             </Box>
           </Box>
         )}
-        {smDown && (
-          <Drawer open={isDrawerOpen} onClose={toggleDrawerOpen} variant={smDown ? 'temporary' : 'permanent'}>
+        {mdDown && (
+          <Drawer open={isDrawerOpen} onClose={toggleDrawerOpen} variant={mdDown ? 'temporary' : 'permanent'}>
             <Box width={theme.spacing(28)} height="100%" display='flex' flexDirection='column'>
 
               <Box height={theme.spacing(20)} width="100%" display='flex' alignItems='center' justifyContent={'center'}>
@@ -170,7 +189,7 @@ export const MenuLateral: React.FC<IAppThemeProviderProps> = ({ children }) => {
         )}
 
         <Box // DIREITA
-          flex={1} minHeight="100%"        // marginLeft={smDown ? 0 : theme.spacing(28)}
+          flex={1} minHeight="100%"        // marginLeft={mdDown ? 0 : theme.spacing(28)}
           display='flex' justifyContent='center'
         //position={'relative'}
         >

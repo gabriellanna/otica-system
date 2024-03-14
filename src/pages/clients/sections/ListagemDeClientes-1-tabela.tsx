@@ -39,7 +39,7 @@ export const SectionTable: React.FC<SectionTableProps> = ({ rows, setRows, isLoa
   };
 
   return (
-    <TableContainer component={Paper} variant='outlined' sx={{ m: 1, width: 'auto', overflow: 'auto' }}>
+    <TableContainer component={Paper} variant='outlined' sx={{ width: 'auto', overflow: 'auto' }}>
         <Table>
 
 
@@ -50,7 +50,6 @@ export const SectionTable: React.FC<SectionTableProps> = ({ rows, setRows, isLoa
               <TableCell>Nome</TableCell>
               <TableCell>Celular</TableCell>
               <TableCell>Endereço</TableCell>
-              <TableCell>Email</TableCell>
               <TableCell width={70}>Ações</TableCell>
             </TableRow>
 
@@ -76,20 +75,15 @@ export const SectionTable: React.FC<SectionTableProps> = ({ rows, setRows, isLoa
                 </TableCell>
 
                 <TableCell>
-                  {row.cellphones[0].number}
+                  {row.cellphones
+                    .filter(cell => cell.main === true)
+                    [0]
+                    .number}
                 </TableCell>
 
                 <TableCell>
                   <Icon>location_on</Icon>
                   {row.address}
-                </TableCell>
-
-                <TableCell>
-                  {row.emails
-                    .filter(email => email.main === true)
-                    [0]
-                    .email
-                  }
                 </TableCell>
 
                 <TableCell>

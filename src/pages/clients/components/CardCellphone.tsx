@@ -8,9 +8,15 @@ interface CardCellphoneProps {
   handleDeleteCellphone: (indice: number) => void;
   rowsCellphones: ICellphone[];
   setRowsCellphones: React.Dispatch<React.SetStateAction<ICellphone[]>>
+  errorCellphoneName: boolean;
 }
 
-export const CardCellphone: React.FC<CardCellphoneProps> = ({ indice, handleDeleteCellphone, setRowsCellphones, rowsCellphones }) => {
+export const CardCellphone: React.FC<CardCellphoneProps> = ({ indice, 
+  handleDeleteCellphone, 
+  setRowsCellphones, 
+  rowsCellphones, 
+  errorCellphoneName,
+}) => {
 
 
   const handleChangeNumero = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,9 +38,9 @@ export const CardCellphone: React.FC<CardCellphoneProps> = ({ indice, handleDele
     setRowsCellphones(prevListCell => {
       const updatedArray = prevListCell.map((cellphone, index) => {
         if (index === indice && cellphone.main === false) {
-          return {...cellphone, main: true}
+          return { ...cellphone, main: true }
         } else {
-          return {...cellphone, main: false};
+          return { ...cellphone, main: false };
         }
       });
 
@@ -50,24 +56,36 @@ export const CardCellphone: React.FC<CardCellphoneProps> = ({ indice, handleDele
     <Paper sx={{ boxShadow: '0 0 50px 1px #3737371f', borderRadius: '20px' }}>
       <CardContainer>
         <div className='input-div'>
-          <TextField value={valueNumber} onChange={handleChangeNumero} size="small" label='Número' />
-          <TextField size="small" label='Identificação' />
+          <TextField
+            value={valueNumber}
+            onChange={handleChangeNumero}
+            size="small"
+            label='Número'
+            error={errorCellphoneName}
+            helperText={errorCellphoneName && ('Todos obrigatórios')}
+            required
+          />
+          <TextField
+            size="small"
+            label='Identificação'
+            helperText={errorCellphoneName && ('Ex: "Telefone Pessoal"')}
+          />
         </div>
+
+
         <div className='button-div'>
 
           <FormGroup>
-
-            <FormControlLabel 
-              label="Principal" 
+            <FormControlLabel
+              label="Principal"
               control={
-                <Switch 
-                  checked={rowsCellphones[indice].main} 
-                  onChange={handleMainCell} 
-                  size="small" 
+                <Switch
+                  checked={rowsCellphones[indice].main}
+                  onChange={handleMainCell}
+                  size="small"
                 />
-              } 
+              }
             />
-
           </FormGroup>
 
           <IconButton size='small'
@@ -76,6 +94,7 @@ export const CardCellphone: React.FC<CardCellphoneProps> = ({ indice, handleDele
           >
             <Icon>delete</Icon>
           </IconButton>
+
         </div>
       </CardContainer>
     </Paper>

@@ -51,7 +51,6 @@ export const FerramentasDeDetalhe: React.FC<IFerramentasDeDetalheProps> = ({
 
   return (
     <Box
-      marginX={1}
       padding={1}
       paddingX={2}
       display={'flex'}

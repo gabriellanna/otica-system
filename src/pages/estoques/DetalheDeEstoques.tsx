@@ -3,7 +3,7 @@ import { Box, Grid, LinearProgress, Paper, Typography } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import * as yup from 'yup';
 
-import { CidadesService } from "../../shared/services/api/cidades/CidadesService";
+import { EstoquesService } from "../../shared/services/api/estoques/EstoquesService";
 import { VTextFil, VForm, useVForm, IVFormErrors } from "../../shared/forms";
 import { FerramentasDeDetalhe } from "../../shared/components";
 import { LayoutBaseDePagina } from "../../shared/layouts";
@@ -16,7 +16,7 @@ const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
   nome: yup.string().required().min(3),
 });
 
-export const DetalheDeCidades: React.FC = () => {
+export const DetalheDeEstoques: React.FC = () => {
   const { formRef, save, saveAndClose, isSaveAndClose } = useVForm();
   const { id = 'nova' } = useParams<'id'>();
   const navigate = useNavigate();
@@ -29,13 +29,13 @@ export const DetalheDeCidades: React.FC = () => {
     if (id !== 'nova') {
       setIsLoading(true);
 
-      CidadesService.getById(Number(id))
+      EstoquesService.getById(Number(id))
         .then((result) => {
           setIsLoading(false);
 
           if (result instanceof Error) {
             alert(result.message);
-            navigate('/cidades');
+            navigate('/estoques');
           } else {
             setNome(result.nome);
             formRef.current?.setData(result);
@@ -57,7 +57,7 @@ export const DetalheDeCidades: React.FC = () => {
         setIsLoading(true);
 
         if (id === 'nova') {
-          CidadesService
+          EstoquesService
             .create(dadosValidados)
             .then((result) => {
               setIsLoading(false);
@@ -66,14 +66,14 @@ export const DetalheDeCidades: React.FC = () => {
                 alert(result.message);
               } else {
                 if (isSaveAndClose()) {
-                  navigate('/cidades')
+                  navigate('/estoques')
                 } else {
-                  navigate(`/cidades/detalhe/${result}`); //result me retorna o Id do usuário
+                  navigate(`/estoques/detalhe/${result}`); //result me retorna o Id do usuário
                 }
               }
             });
         } else {
-          CidadesService
+          EstoquesService
             .updateById(Number(id), { id: Number(id), ...dadosValidados })
             .then((result) => {
               setIsLoading(false);
@@ -82,7 +82,7 @@ export const DetalheDeCidades: React.FC = () => {
                 alert(result.message);
               } else {
                 if (isSaveAndClose()) {
-                  navigate('/cidades')
+                  navigate('/estoques')
                 }
               }
             });
@@ -106,13 +106,13 @@ export const DetalheDeCidades: React.FC = () => {
 
   const handleDelete = (id: number) => {
     if (window.confirm('Realmente deseha apagar?')) {
-      CidadesService.deleteById(id)
+      EstoquesService.deleteById(id)
         .then(result => {
           if (result instanceof Error) {
             alert(result.message);
           } else {
             alert("Registro apagado com sucesso!");
-            navigate('/cidades');
+            navigate('/estoques');
           }
         });
     }
@@ -120,7 +120,7 @@ export const DetalheDeCidades: React.FC = () => {
 
   return (
     <LayoutBaseDePagina
-      titulo={id === 'nova' ? 'Nova cidade' : nome}
+      titulo={id === 'nova' ? 'Nova estoque' : nome}
       barraDeFerramentas={
         <FerramentasDeDetalhe
           textoBotaoNovo="Nova"
@@ -130,9 +130,9 @@ export const DetalheDeCidades: React.FC = () => {
 
           aoClicarEmSalvar={save}
           aoClicarEmSalvarEFechar={saveAndClose}
-          aoClicarEmVoltar={() => navigate('/cidades/')}
+          aoClicarEmVoltar={() => navigate('/estoques/')}
           aoClicarEmApagar={() => handleDelete(Number(id))}
-          aoClicarEmNovo={() => navigate('/cidades/detalhe/nova')}
+          aoClicarEmNovo={() => navigate('/estoques/detalhe/nova')}
 
         //() => formRef.current?.submitForm()
         />

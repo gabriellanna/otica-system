@@ -27,11 +27,9 @@ export const NovoCliente: React.FC = () => {
 
   const [errorCellphones, setErrorCellphones] = useState(false);
   const [errorAddress, setErrorAddress] = useState(false);
-  const [errorEmails, setErrorEmails] = useState(false);
   const [errorName, setErrorName] = useState(false);
 
   const [errorCellphoneName, setErrorCellphoneName] = useState(false);
-  const [errorEmailName, setErrorEmailName] = useState(false);
 
 
   const { id = 'novo' } = useParams<'id'>();
@@ -58,11 +56,8 @@ export const NovoCliente: React.FC = () => {
     setErrorName(false);
     setErrorAddress(false);
     setErrorCellphones(false);
-    setErrorEmails(false);
 
     setErrorCellphoneName(false);
-    setErrorEmailName(false);
-
   }, [name, emails, cellphones, address, ])
 
   useEffect(() => {
@@ -151,11 +146,9 @@ export const NovoCliente: React.FC = () => {
       if (validName === false) setErrorName(true);
       if (validAddress === false) setErrorAddress(true);
 
-      if (validEmail === false) setErrorEmails(true);
       if (validCellphone === false) setErrorCellphones(true);
 
       if (validCellphoneName === false) setErrorCellphoneName(true);
-      if (validEmailName === false) setErrorEmailName(true);
     }
 
     setIsLoading(false);
@@ -197,11 +190,10 @@ export const NovoCliente: React.FC = () => {
         <Box>
           <Typography variant="h5">Name: <Switch checked={errorName} /></Typography>
           <Typography variant="h5">Addres: <Switch checked={errorAddress} /></Typography>
-          <Typography variant="h5">Email PRINCIPAL: <Switch checked={errorEmails} /></Typography>
-          <Typography variant="h5">Cellphone PRINCIPAL: <Switch checked={errorCellphones} /></Typography>
           <p>----------------------------------</p>
+          <Typography variant="h5">Cellphone PRINCIPAL: <Switch checked={errorCellphones} /></Typography>
           <Typography variant="h5">Cellphone NAME: <Switch checked={errorCellphoneName} /></Typography>
-          <Typography variant="h5">Email NAME: <Switch checked={errorEmailName} /></Typography>
+
         </Box>
 
         <SectionDadosPrincipais
@@ -219,6 +211,7 @@ export const NovoCliente: React.FC = () => {
           setRowsCellphones={setCellphones}
           rowsEmails={emails}
           setRowsEmails={setEmails}
+          errorCellphoneName={errorCellphoneName}
         />
 
         <SectionButton

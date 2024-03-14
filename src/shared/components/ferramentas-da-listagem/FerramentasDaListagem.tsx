@@ -1,6 +1,6 @@
-import { Box, Button, Icon, Paper, TextField, useTheme } from "@mui/material";
+import { Box, Button, Icon, Paper, TextField, useMediaQuery, useTheme } from "@mui/material";
 
-import { Environment } from "../../environment";
+import { Env, Environment } from "../../environment";
 
 interface IFerramentasDaListagemProps {
     textoDaBusca?: string;
@@ -10,6 +10,8 @@ interface IFerramentasDaListagemProps {
     mostrarBotaoNovo?: boolean;
     aoClicarEmNovo?: () => void;
 }
+
+
 
 export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
     textoDaBusca = '',
@@ -22,15 +24,17 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
 
     const theme = useTheme();
 
+    const smDown = useMediaQuery(() => theme.breakpoints.down('sm'));
+
     return (
         <Box
-            height={theme.spacing(5)}
+            minHeight={theme.spacing(5)}
             marginX={0}
             padding={1}
             paddingX={2}
-            display={'flex'}
+            sx={smDown ? Env.FLEX_COLUMN : Env.FLEX_ROW}
             gap={1}
-            alignItems={'center'}
+            alignItems={'start'}
             component={Paper}
         >
             {mostrarInputBusca && (

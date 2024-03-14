@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Box, Button, Icon, Typography } from "@mui/material";
+import { Avatar, Box, Button, Card, Icon, Paper, Theme, Typography, useMediaQuery, useTheme } from "@mui/material";
 
 import { IListagemCliente, ClientesService } from "../../shared/services/api/clientes/ClientesService";
 import { FerramentasDaListagem } from "../../shared/components";
 import { LayoutBaseDePagina } from "../../shared/layouts";
 import { useDebounce } from "../../shared/hooks";
-import { SectionTable } from "./sections";
+import { SectionCardTableMobile, SectionTable } from "./sections";
+import { Env } from "../../shared/environment";
 
 
 export const ListagemDeClientes: React.FC = () => {
@@ -18,6 +19,8 @@ export const ListagemDeClientes: React.FC = () => {
   const [rows, setRows] = useState<IListagemCliente[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
+
+  const theme = useTheme();
 
   const busca = useMemo(() => {
     return searchParams.get('busca') || '';
@@ -48,6 +51,13 @@ export const ListagemDeClientes: React.FC = () => {
     });
   }, [busca, pagina, debounce]);
 
+
+ // const mdDown = useMediaQuery(theme.breakpoints.down('md')); /////////////////////  sm = 600px / md = 900px lg = 1200px
+  const lgDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg')); //   sm = 600px  //  md = 900px  //  lg = 1200px
+  const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm')); //   sm = 600px  //  md = 900px  //  lg = 1200px
+
+  const color =  theme.palette.primary.main;
+
   return (
     <LayoutBaseDePagina
       titulo="Listagem de Clientes"
@@ -64,24 +74,41 @@ export const ListagemDeClientes: React.FC = () => {
 
 
       <Box marginY={2}
-        display='flex' flexDirection='row' justifyContent='space-between'
+        sx={lgDown ? Env.FLEX_COLUMN : Env.FLEX_ROW}
+        justifyContent='space-between'
+        gap={2}
       >
-        <Button variant="contained" endIcon={<Icon>add</Icon>}>
+        <Button variant="contained" endIcon={<Icon>add</Icon>} sx={{ width: '220px' }}>
           Exportar Clientes
         </Button>
-        <Typography variant="h5">Foram encontrados um total de {totalCount} clientes</Typography>
+        <Typography
+          variant="h6"
+          sx={smDown ? { fontSize: '15px' } : {}}
+        >
+          Foram encontrados um total de {totalCount} clientes
+        </Typography>
       </Box>
 
-      <SectionTable 
-        pagina={pagina}
-        busca={busca}
-        isLoading={isLoading}
-        rows={rows}
-        setRows={setRows}
-        setSearchParams={setSearchParams}
-        totalCount={totalCount}
-      />
-      
+      {!smDown && (
+        <SectionTable
+          pagina={pagina}
+          busca={busca}
+          isLoading={isLoading}
+          rows={rows}
+          setRows={setRows}
+          setSearchParams={setSearchParams}
+          totalCount={totalCount}
+        />)
+      }
+
+      {
+        smDown && (
+          <SectionCardTableMobile
+            rows={rows}
+          />
+        )
+      }
+
     </LayoutBaseDePagina>
   )
 }

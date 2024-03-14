@@ -162,6 +162,76 @@
       "id": 3
     }
   ],
+  "produtos": [
+    {
+      "nome": "Armação Oakley",
+      "id": 1
+    },
+    {
+      "nome": "Armação Lacoste",
+      "id": 2
+    },
+    {
+      "nome": "Armação Prada",
+      "id": 3
+    }
+  ],
+  "ordensDeServicos": [
+    {
+      "nome": "Ordem 1",
+      "id": 1
+    },
+    {
+      "nome": "Ordem 2",
+      "id": 2
+    },
+    {
+      "nome": "Ordem 3",
+      "id": 3
+    }
+  ],
+  "vendas": [
+    {
+      "nome": "Venda 1",
+      "id": 1
+    },
+    {
+      "nome": "Venda 2",
+      "id": 2
+    },
+    {
+      "nome": "Venda 3",
+      "id": 3
+    }
+  ],
+  "estoques": [
+    {
+      "nome": "Estoque 1",
+      "id": 1
+    },
+    {
+      "nome": "Estoque 2",
+      "id": 2
+    },
+    {
+      "nome": "Estoque 3",
+      "id": 3
+    }
+  ],
+  "cadastros": [
+    {
+      "nome": "Cadastro 1",
+      "id": 1
+    },
+    {
+      "nome": "Cadastro 2",
+      "id": 2
+    },
+    {
+      "nome": "Cadastro 3",
+      "id": 3
+    }
+  ],
   "auth": {
     "accessToken": "aaaaaaaaa.bbbbbbbb.cccccccc"
   }

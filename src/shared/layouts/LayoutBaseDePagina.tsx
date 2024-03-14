@@ -23,7 +23,7 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({ childre
               //  bgcolor='#44b0b8'
                 borderRadius={3}
             >
-                {smDown && (
+                {mdDown && (
                     <IconButton onClick={toggleDrawerOpen}>
                         <Icon>menu</Icon>
                     </IconButton>
@@ -48,7 +48,8 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({ childre
             )}
 
             <Box paddingTop={1} flex={1} height='min-content' // flex={1} ==> ocupar todo o espaço disponível 
-              //  bgcolor='#171547'
+               // overflow={'auto'}
+               // bgcolor='#171547'
             >
                 {children}
             </Box>

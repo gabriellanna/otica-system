@@ -1,4 +1,4 @@
-import { Box, Typography, Paper, Button, Icon, Container, Switch } from '@mui/material';
+import { Box, Typography, Paper, Button, Icon, Container, Switch, useMediaQuery, Theme } from '@mui/material';
 
 import { ICellphone, IEmail } from '../../../shared/services/api/clientes/ClientesService';
 import { CardCellphone } from '../components/CardCellphone';
@@ -36,9 +36,16 @@ interface SectionContatoProps {
   rowsCellphones: ICellphone[];
   setRowsEmails: React.Dispatch<React.SetStateAction<IEmail[]>>;
   setRowsCellphones: React.Dispatch<React.SetStateAction<ICellphone[]>>;
+  errorCellphoneName: boolean;
 }
 
-export const SectionContato: React.FC<SectionContatoProps> = ({ rowsCellphones, setRowsCellphones, rowsEmails, setRowsEmails }) => {
+export const SectionContato: React.FC<SectionContatoProps> = ({ 
+  rowsCellphones, 
+  setRowsCellphones, 
+  rowsEmails, 
+  setRowsEmails, 
+  errorCellphoneName 
+}) => {
 
   const handleAddCellphone = () => {
     let noCell: ICellphone = { number: '', identificacao: '', main: false }
@@ -63,6 +70,9 @@ export const SectionContato: React.FC<SectionContatoProps> = ({ rowsCellphones, 
   const handleDeleteEmail = (indice: number) => {
     setRowsEmails(prevListEmail => prevListEmail.filter((_, index) => index !== indice));
   };
+
+
+  const lgDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg')); //   sm = 600px  //  md = 900px  //  lg = 1200px
 
   return (
     <Box // content inferior
@@ -89,12 +99,12 @@ export const SectionContato: React.FC<SectionContatoProps> = ({ rowsCellphones, 
         }
       </Box>
 
-      <Container component={Box} width='100%' height='min-content' sx={Env.FLEX_ROW} gap={5} //bgcolor='#3333334f'
+      <Container component={Box} width='100%' height='min-content' sx={ lgDown ? Env.FLEX_COLUMN : Env.FLEX_ROW} gap={5} //bgcolor='#3333334f'
       >
 
 
 
-        <Paper component={Box} width='50%' boxSizing='border-box' elevation={5} // Telefone Container
+        <Paper component={Box} width='100%' boxSizing='border-box' elevation={5} // Telefone Container
         >
           <Box
             width='100%'
@@ -150,6 +160,7 @@ export const SectionContato: React.FC<SectionContatoProps> = ({ rowsCellphones, 
               {rowsCellphones.map((_, indice) => (
                 <CardCellphone
                   handleDeleteCellphone={handleDeleteCellphone}
+                  errorCellphoneName={errorCellphoneName}
                   setRowsCellphones={setRowsCellphones}
                   rowsCellphones={rowsCellphones}
                   indice={indice}
@@ -163,7 +174,7 @@ export const SectionContato: React.FC<SectionContatoProps> = ({ rowsCellphones, 
 
 
 
-        <Paper component={Box} width='50%' boxSizing='border-box' elevation={5} // Email Container
+        <Paper component={Box} width='100%' boxSizing='border-box' elevation={5} // Email Container
         >
           <Box
             width='100%'
