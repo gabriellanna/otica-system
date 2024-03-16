@@ -8,7 +8,7 @@ import {
     DetalheDeCidades,
     ListagemDeCidades,
     ListagemDeClientes,
-    // DetalheDeClientes,
+    DetalheDeClientes,
     NovoCliente,
     ListagemDeProdutos,
     DetalheDeProdutos,
@@ -83,7 +83,7 @@ export const AppRouters = () => {
 
             <Route path="/clientes/:id" element={<NovoCliente />} />
             <Route path="/clientes" element={<ListagemDeClientes />} />
-            {/* <Route path="/clientes/detalhe/:id" element={<DetalheDeClientes />} /> */}
+            <Route path="/clientes/detalhe/:id" element={<DetalheDeClientes />} />
 
             <Route path="/produtos" element={<ListagemDeProdutos />} />
             <Route path="/produtos/detalhe/:id" element={<DetalheDeProdutos />} />

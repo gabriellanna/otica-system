@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Avatar, Box, Button, Card, Icon, Paper, Theme, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Button, Icon, Theme, Typography, useMediaQuery, useTheme } from "@mui/material";
 
 import { IListagemCliente, ClientesService } from "../../shared/services/api/clientes/ClientesService";
 import { FerramentasDaListagem } from "../../shared/components";

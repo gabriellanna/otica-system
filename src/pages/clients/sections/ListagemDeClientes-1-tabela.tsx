@@ -59,7 +59,10 @@ export const SectionTable: React.FC<SectionTableProps> = ({ rows, setRows, isLoa
           <TableBody>
 
             {rows?.map(row => (
-              <TableRow key={row.id}>
+              <TableRow key={row.id} sx={{ cursor: 'pointer', '&:hover': { backgroundColor: '#8d8d8d3d' }, transition: '.3s' }} 
+                component={Box} 
+                onClick={() => navigate(`/clientes/detalhe/${row.id}`)}
+              >
                 <TableCell>
                   <Avatar>
                     <Icon>people</Icon>
